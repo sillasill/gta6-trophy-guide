@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leonida Trophy Guide — GTA VI · 55 trophies</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="masthead">
+  <div class="masthead-title">
+    <h1>Leonida Trophy Guide</h1>
+    <p class="subtitle">Grand Theft Auto VI · PlayStation 5 · 55 trophies: 1 platinum, 2 gold, 6 silver, 46 bronze · 28 hidden until earned</p>
+  </div>
+  <div class="masthead-progress" id="progressBox" aria-label="Progress">
+    <div class="big-count"><span id="earnedCount">0</span><span class="of"> / 55</span></div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <p class="grade-counts" id="gradeCounts"></p>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Sections">
+  <button type="button" class="tab active" data-view="checklist">Checklist</button>
+  <button type="button" class="tab" data-view="roadmap">Roadmap to Platinum</button>
+  <button type="button" class="tab" data-view="missable">Missable <span class="tab-badge" id="missableBadge">1</span></button>
+  <button type="button" class="tab" data-view="sources">Sources &amp; honesty</button>
+</nav>
+
+<section class="toolbar" aria-label="Filters and save">
+  <label class="search">Search <input id="search" type="search" placeholder="Trophy, mission or place…" autocomplete="off"></label>
+  <label>Kind
+    <select id="kind">
+      <option value="all">All kinds</option>
+      <option value="story">Story</option>
+      <option value="side">Side stories</option>
+      <option value="collectible">Collectibles</option>
+      <option value="activity">Activities</option>
+      <option value="combat">Combat</option>
+      <option value="exploration">Exploration</option>
+      <option value="robbery">Robberies</option>
+      <option value="economy">Money &amp; property</option>
+      <option value="misc">Everything else</option>
+    </select>
+  </label>
+  <label>Grade
+    <select id="grade">
+      <option value="all">All grades</option>
+      <option value="platinum">Platinum</option>
+      <option value="gold">Gold</option>
+      <option value="silver">Silver</option>
+      <option value="bronze">Bronze</option>
+    </select>
+  </label>
+  <div class="chips" role="group" aria-label="Quick filters">
+    <button type="button" class="chip active" data-chip="all">All</button>
+    <button type="button" class="chip" data-chip="story">Story</button>
+    <button type="button" class="chip" data-chip="missable">Missable</button>
+    <button type="button" class="chip" data-chip="collectible">Collectibles</button>
+    <button type="button" class="chip" data-chip="activity">Activities</button>
+    <button type="button" class="chip" data-chip="earned">Earned</button>
+    <button type="button" class="chip" data-chip="unearned">Not earned</button>
+  </div>
+  <label class="spoiler-toggle"><input id="spoilers" type="checkbox" checked> Hide story spoilers</label>
+  <button id="exportBtn" type="button">Export progress</button>
+  <label class="import-btn">Import progress <input id="importFile" type="file" accept="application/json,.json"></label>
+</section>
+
+<main id="main">
+  <section id="view-checklist" class="view">
+    <div class="checklist-layout">
+      <div class="list-col">
+        <p class="list-meta" id="listMeta"></p>
+        <ul class="trophy-list" id="trophyList"></ul>
+      </div>
+      <aside class="detail-col" id="detailPane" aria-label="Trophy guide"></aside>
+    </div>
+  </section>
+
+  <section id="view-roadmap" class="view" hidden>
+    <p class="section-intro">The order to earn them in, built from the official descriptions: story first, then side stories, activities, robberies and the open world, then money and the platinum. <strong>Do the Chapter 1 balcony meditation early</strong> — it is the one thing that can be missed.</p>
+    <div id="roadmapStages"></div>
+  </section>
+
+  <section id="view-missable" class="view" hidden>
+    <div class="warning-box">
+      <h2>There is no mission replay</h2>
+      <p>GTA VI has no mission replay and no New Game Plus, so a story mission cannot be played again once it is done. The game has 15 manual save slots plus one autosave: <strong>keep a manual save at the start of every chapter and one untouched save from just before the final mission</strong>, and rotate the rest. Everything outside the story stays available after the credits. <span class="cite">Source: <a href="https://outputlag.com/guides/gta-6-trophy-list/">Output Lag — GTA 6 Trophy List</a> (first-day guide, 18–19 Nov 2026).</span></p>
+    </div>
+    <h2 class="section-title">Missable trophies</h2>
+    <div id="missableList"></div>
+    <h2 class="section-title">Time-sensitive, not missable</h2>
+    <div id="timeSensitiveList"></div>
+    <h2 class="section-title">Story-locked — they pop as you play</h2>
+    <p class="section-intro">These trophies are tied to story chapters, missions and side-character finales. They cannot be earned late, but they cannot be missed either as long as you play the missions — the risk is leaving side content inside a chapter, not the trophy itself.</p>
+    <div id="storyLockedList"></div>
+  </section>
+
+  <section id="view-sources" class="view" hidden>
+    <h2 class="section-title">Where every fact comes from</h2>
+    <p class="section-intro">Grand Theft Auto VI released on 19 November 2026, the day this guide was written. No full verified walkthrough exists yet, so this guide is honest about what it knows: <strong>official names, descriptions, grades and PSN counts</strong> come from the trophy lists, and <strong>specific places and steps</strong> come from first-day guides, each cited beside the trophy it belongs to. Where no source has confirmed a method, the guide says so instead of inventing one.</p>
+    <ul class="source-list" id="sourceList"></ul>
+    <h2 class="section-title">How to use this guide</h2>
+    <ol class="howto">
+      <li>Tick trophies off as you earn them — progress is saved in this browser.</li>
+      <li>Export your progress before you clear browser data, and import it back any time.</li>
+      <li>Keep the spoiler setting on until you finish the story: it hides the names and descriptions of hidden story trophies until you earn them.</li>
+      <li>Follow the roadmap in order, and do the Chapter 1 balcony meditation before Chapter 1 ends.</li>
+    </ol>
+    <p class="fineprint">An unofficial fan guide. Grand Theft Auto and GTA are trademarks of Take-Two Interactive; this guide uses no Rockstar logo, artwork or game screenshots. Trophy names and descriptions are shown as PlayStation publishes them. Built offline: this page makes no network request — the source links above open only if you follow them.</p>
+  </section>
+</main>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
