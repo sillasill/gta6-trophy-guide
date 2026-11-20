@@ -1,43 +1,73 @@
-// The roadmap to the platinum: five stages in the order to earn them, built from
-// the official trophy descriptions. Each trophy carries its stage in trophies.json;
-// the blurbs below say what each stage is for and what to watch in it.
+// Roadmap and missables, built from the official descriptions alone:
+// which story chapters and missions, which collectibles and counts, in
+// what order. Stages are the guide's own structure; the trophy membership
+// of each stage follows the descriptions in data/trophies.json.
+
 export const ROADMAP_STAGES = [
   {
+    number: 1,
+    title: 'Play the story — Chapters 1 to 4 and the finale',
+    blurb: 'Twelve trophies, all unmissable story progress: the opening mission, four chapter trophies, the final mission, and six named story missions. Just play the main missions in order. Do the Chapter 1 balcony meditation while you are there (see Missable trophies), and do not rush past the optional Chapter 4 mission behind Maximum Withdrawal.',
     stage: 1,
-    title: 'Play the story',
-    blurb: 'Chapters 1 to 4 and the final mission, in order. Every story trophy pops as you play — the only thing to do deliberately here is the Chapter 1 balcony meditation for Positive Mental Attitude, and to keep a manual save at the start of every chapter, because there is no mission replay.',
   },
   {
+    number: 2,
+    title: 'Side stories — strangers across Leonida',
+    blurb: 'Seven trophies: five final missions for Andy, Kenton, Billy, Randy and Tyrone, the unique-animal hunt for Bret, and the silver for finishing 8 stranger strands. Stranger chains unlock as the story advances; one source warns their windows may be tied to story progress, so start each chain when it appears and finish it before moving far past its chapter.',
     stage: 2,
-    title: 'Side stories and strangers',
-    blurb: 'The five side-character finales (Andy, Kenton, Billy, Randy, Tyrone), Bret\'s hunting questline, and 8 stranger strands. They stay open after the story, but do them before the long grinds: the Chapter 3 race against Yago is time-sensitive, and Andy\'s, Billy\'s and Tyrone\'s strands do not count toward Strangers & Freaks.',
   },
   {
+    number: 3,
+    title: 'Open-world play — races, robberies and skills',
+    blurb: 'Nineteen trophies: 250 stunts, the 9 activity types, 42 Shooting Range golds, drone races at 14 locations, 20 race wins, fishing, arcade, 50 challenges, the partner robberies, Combat Focus, the VCIA departure, the Rhino tank, the stealth jewelry robbery, 5 bank vaults, the armored truck, one illegal operation per gang, and the melee drive-by. Spread these through the story — most of them are easier with the map open and later story gear unlocked.',
     stage: 3,
-    title: 'Activities and skills',
-    blurb: 'The 9 activity types, 250 stunts, 42 Shooting Range gold medals, 14 drone race locations, 20 race wins, 18 meditation spots and 50 Challenges. Sample every activity early for Master of None, then grind each one in turn — stunts and Challenges feed 100% completion too.',
   },
   {
+    number: 4,
+    title: 'Collect and explore — the slow burn',
+    blurb: 'Fifteen trophies: 18 meditation spots (the one possibly missable set — do Chapter 1’s first), 3 card sets, WAiNK at 100 locations, 100 vehicles discovered, all 52 areas explored, 8 garages, 10 Scooter Bros registrations, $250,000 of Marked Bills laundered, $100,000 spent, and the five cryptic trophies whose methods are not yet verified. These climb while you do everything else; check the counters as you go.',
     stage: 4,
-    title: 'Robberies and the open world',
-    blurb: 'Jewelry stores, bank vaults, armored trucks, illegal operations for all 9 gangs, 100 vehicles, 52 areas, card sets and WAiNK tags. Vaults open near the end of Chapter 4; the rest is free-roam cleanup that pairs well with exploring Leonida.',
   },
   {
+    number: 5,
+    title: 'Cleanup — 100% and the platinum',
+    blurb: 'Two trophies: A Long Road, the gold for 100% completion, then the platinum itself. The checklist wants more than the trophies do — 300 stunts, 30 race wins, 70 challenges, 15 card sets, 8 bank vaults — so finish the story first, then work the gaps the tracker shows. When A Long Road pops, Vice Got a Price! follows at once.',
     stage: 5,
-    title: 'Money, property and the platinum',
-    blurb: 'Launder $250,000 of Marked Bills, spend $100,000, buy all 8 garages, register 10 vehicles, and let the slow counters — 500 Criminal Profile actions and the odd one-off encounters — finish. Then check Progress, Stats, 100% Completion and sweep what is left. The platinum pops with the last trophy.',
   },
 ];
 
-export function stageTrophies(trophies, stage) {
-  return trophies.filter((trophy) => trophy.stage === stage);
+export function trophiesForStage(trophies, stageNumber) {
+  return trophies.filter((trophy) => trophy.stage === stageNumber);
 }
 
-export function nextUpTrophy(trophies, earned) {
-  for (const stage of ROADMAP_STAGES) {
-    for (const trophy of stageTrophies(trophies, stage.stage)) {
-      if (!earned.has(trophy.name)) return { trophy, stage };
-    }
-  }
-  return null;
+export function stageProgress(trophies, stageNumber, earnedIds) {
+  const members = trophiesForStage(trophies, stageNumber);
+  const done = members.filter((trophy) => earnedIds.includes(trophy.id)).length;
+  return { done, total: members.length };
 }
+
+// The missable page: the one flagged trophy, plus the timing warnings the
+// early guides attach to other trophies. Each warning names its source and
+// says whether it is confirmed.
+export const MISSABLE_NOTES = [
+  {
+    id: 28,
+    verdict: 'Possibly missable — the only one the early guides flag.',
+    note: 'GTABase and PowerPyx both report that the first meditation, Lucia’s on the balcony at Jason’s house in Chapter 1, disappears once that chapter ends — and both say it is unconfirmed whether that spot is required for the trophy. Do it in Chapter 1 to be safe, and keep a manual save at the start of every chapter. The two sources also disagree on the total: 18 spots (GTABase) against 15 on the 100% checklist (Press-Start).',
+  },
+  {
+    id: 25,
+    verdict: 'Timing warning — unconfirmed, single source.',
+    note: 'TechWiser reports that the stranger mission chains behind the side-character finals have windows linked to story progress. Only one source gives that warning, so this guide treats it as a caution: begin each stranger chain as soon as it unlocks and finish it promptly.',
+  },
+  {
+    id: 40,
+    verdict: 'Chapter-gated, not missable — do it in Chapter 4.',
+    note: 'Maximum Withdrawal needs the optional Chapter 4 mission “That’s Where The Money Is…”. It is optional, so it is easy to walk past — play it before you finish Chapter 4.',
+  },
+  {
+    id: 7,
+    verdict: 'Point of no return — keep a save.',
+    note: 'There is no mission replay, so keep a manual save before the final mission. After the credits the open world stays available, but a chapter-start save is cheap insurance for anything the guides have not yet confirmed.',
+  },
+];

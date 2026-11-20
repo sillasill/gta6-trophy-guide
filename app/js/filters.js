@@ -1,48 +1,57 @@
-// Filters and the spoiler rule for the Leonida Trophy Guide.
-// The spoiler rule: while it is on, a hidden trophy that is not earned yet shows
-// neither its name nor its description — only its grade and that it is hidden.
+// Filters: kind, grade, search text, earned-only, and the spoiler rule.
+// With spoilers on, a trophy that is hidden on PlayStation and not yet
+// earned shows masked: its name and description stay hidden until it is
+// earned, as on PlayStation itself. The platinum and the visible trophies
+// are never masked.
+
 export const KIND_LABELS = {
   story: 'Story',
-  side: 'Side story',
-  collectible: 'Collectible',
-  activity: 'Activity',
-  combat: 'Combat',
-  exploration: 'Exploration',
-  robbery: 'Robbery',
-  economy: 'Money & property',
-  misc: 'Other',
+  missable: 'Missable',
+  collectibles: 'Collectibles',
+  activities: 'Activities',
+  online: 'Online',
 };
 
-export function isSpoilerHidden(trophy, spoilersOn, earned) {
-  return spoilersOn && trophy.hidden && !earned.has(trophy.name);
+export const GRADE_LABELS = {
+  platinum: 'Platinum',
+  gold: 'Gold',
+  silver: 'Silver',
+  bronze: 'Bronze',
+};
+
+export function spoilerHides(trophy, save) {
+  return save.spoilers && trophy.hidden && !save.earned.includes(trophy.id);
 }
 
-export function trophyMatches(trophy, filters, earned) {
-  if (filters.chip === 'earned' && !earned.has(trophy.name)) return false;
-  if (filters.chip === 'unearned' && earned.has(trophy.name)) return false;
-  if (filters.chip === 'missable' && !trophy.missable) return false;
-  if (filters.chip === 'story' && trophy.kind !== 'story') return false;
-  if (filters.chip === 'collectible' && trophy.kind !== 'collectible') return false;
-  if (filters.chip === 'activity' && trophy.kind !== 'activity') return false;
-  if (filters.kind !== 'all' && trophy.kind !== filters.kind) return false;
-  if (filters.grade !== 'all' && trophy.grade !== filters.grade) return false;
-  if (filters.search) {
-    const needle = filters.search.toLowerCase();
-    const haystack = `${trophy.name} ${trophy.description} ${trophy.guide}`.toLowerCase();
-    if (!haystack.includes(needle)) return false;
-  }
-  return true;
+export function matchesKind(trophy, kind) {
+  if (kind === 'all') return true;
+  if (kind === 'missable') return trophy.missable === true;
+  if (kind === 'online') return false; // No online trophies: all 55 are single-player.
+  return trophy.kind === kind;
 }
 
-export function applyFilters(trophies, filters, earned) {
-  return trophies.filter((trophy) => trophyMatches(trophy, filters, earned));
+export function matchesGrade(trophy, grade) {
+  return grade === 'all' || trophy.grade === grade;
 }
 
-export function gradeCounts(trophies, earned) {
-  const counts = { platinum: [0, 0], gold: [0, 0], silver: [0, 0], bronze: [0, 0] };
-  for (const trophy of trophies) {
-    counts[trophy.grade][1] += 1;
-    if (earned.has(trophy.name)) counts[trophy.grade][0] += 1;
-  }
-  return counts;
+export function matchesQuery(trophy, query) {
+  if (!query) return true;
+  const haystack = `${trophy.name} ${trophy.description} ${trophy.guide}`.toLowerCase();
+  return query.toLowerCase().split(/\s+/).every((word) => haystack.includes(word));
+}
+
+export function visibleTrophies(trophies, save) {
+  return trophies.filter(
+    (trophy) =>
+      matchesKind(trophy, save.kind) &&
+      matchesGrade(trophy, save.grade) &&
+      matchesQuery(trophy, save.query) &&
+      (!save.earnedOnly || save.earned.includes(trophy.id)),
+  );
+}
+
+export function countByKind(trophies, kind) {
+  if (kind === 'missable') return trophies.filter((t) => t.missable).length;
+  if (kind === 'online') return 0;
+  return trophies.filter((t) => t.kind === kind).length;
 }
